@@ -1,6 +1,29 @@
-.idea/
-.vscode/
+# Ignore environment-specific files
+.env
+.env.local
+.env.*.local
+# Ignore node_modules directory
 node_modules/
-build/
-tmp/
-temp/
+
+# Ignore compiled TypeScript files
+*.js
+*.js.map
+
+# Ignore compiled TypeScript definition files
+*.d.ts
+
+# Ignore TypeScript project configuration
+tsconfig.json
+
+# Ignore Visual Studio Code settings
+.vscode/
+
+
+# Ignore build and compiled output
+/build
+/dist
+/out
+
+# Ignore dependency lock files
+yarn.lock
+package-lock.json
