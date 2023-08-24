@@ -1,9 +1,10 @@
 import { UserController } from "./controller/UserController"
+import { UserController2 } from "./controller/user.controller"
 
 export const Routes = [{
     method: "get",
     route: "/users",
-    controller: UserController,
+    controller: UserController2,
     action: "all"
 }, {
     method: "get",

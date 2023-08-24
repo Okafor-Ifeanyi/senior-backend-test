@@ -1,13 +1,30 @@
 import { AppDataSource } from "../data-source"
 import { NextFunction, Request, Response } from "express"
+// import { UserService } from "../services/user.service";
 import { User } from "../entity/User"
 
 export class UserController {
 
     private userRepository = AppDataSource.getRepository(User)
+    // private userService = new UserService()
 
+    // async all(request: Request, response: Response, next: NextFunction) {
+    //     try {
+    //         const users = await this.userService.getAllUsers();
+    //         return response.json(users);
+    //     } catch (error) {
+    //         return response.status(500).json({ error: error.message });
+    //     }
+    // }
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.userRepository.find()
+        // const data = await this.userRepository.find()
+        // response.send(data)
+        const fetchAll = async (req: Request, res: Response, next: NextFunction) => {
+            const result = await this.userRepository.find()
+            return result
+        }
+        const data = await fetchAll(request, response, next)
+        response.send(data) 
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
@@ -18,6 +35,9 @@ export class UserController {
             where: { id }
         })
 
+        console.log("ID:", id)
+        console.log("USER:", user)
+
         if (!user) {
             return "unregistered user"
         }
@@ -26,14 +46,17 @@ export class UserController {
 
     async save(request: Request, response: Response, next: NextFunction) {
         const { firstName, lastName, age } = request.body;
+        console.log(lastName)
 
         const user = Object.assign(new User(), {
             firstName,
             lastName,
             age
         })
-
-        return this.userRepository.save(user)
+     
+        const data = await this.userRepository.save(user)
+        
+        response.send(data)
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {

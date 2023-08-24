@@ -4,22 +4,31 @@ import { Request, Response } from "express"
 import { AppDataSource } from "./data-source"
 import { Routes } from "./routes"
 import { User } from "./entity/User"
+// import { errorHandler } from "./middlewares/errorHandler.middleware"
+import router from "./express-router"
+import { create } from "domain"
+
+function errorHandler(err, req, res, next) {
+    res.status(err.statusCode || 500).send(err.message);
+}
 
 AppDataSource.initialize().then(async () => {
-
     // create express app
     const app = express()
     app.use(bodyParser.json())
+    // app.use("/", router)
 
     // register express routes from defined application routes
     Routes.forEach(route => {
-        (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
-            const result = (new (route.controller as any))[route.action](req, res, next)
-            if (result instanceof Promise) {
-                result.then(result => result !== null && result !== undefined ? res.send(result) : undefined)
-
-            } else if (result !== null && result !== undefined) {
-                res.json(result)
+        (app as any)[route.method](route.route, async (req: Request, res: Response, next: Function) => {
+            try {
+                const result = (new (route.controller as any))[route.action](req, res, next)
+                if (result instanceof Promise) {
+                    result.then(result => result !== null && result !== undefined ? res.send(result) : undefined)
+                } 
+                else if (result !== null && result !== undefined) res.json(result) 
+            } catch (err) {
+                next(err)
             }
         })
     })
@@ -27,6 +36,7 @@ AppDataSource.initialize().then(async () => {
     // setup express app here
     // ...
 
+    app.use(errorHandler)
     // start express server
     app.listen(3000)
 
