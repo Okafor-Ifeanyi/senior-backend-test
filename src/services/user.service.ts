@@ -1,5 +1,6 @@
 import { AppDataSource } from "../data-source";
 import { User } from "../entity/User";
+import { IUser, IUserExisting } from "../interfaces/user.interface"
 
 export class UserService {
     private userRepository = AppDataSource.getRepository(User);
@@ -8,7 +9,7 @@ export class UserService {
         return await this.userRepository.find();
     }
 
-    async createUser(data: Object) {
+    async createUser(data: IUser) {
         return await this.userRepository.save(data);
     }
 
@@ -18,7 +19,7 @@ export class UserService {
         });
     }
 
-    async removeUser(data: Object) {
+    async removeUser(data: IUserExisting) {
         return await this.userRepository.remove(data);
     }
     // await this.userRepository.remove(userToRemove)

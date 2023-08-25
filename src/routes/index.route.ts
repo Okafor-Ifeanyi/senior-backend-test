@@ -1,6 +1,14 @@
 import { Router } from "express"
-import userRouter from './user.route'
+import { userRoutes } from './user.route'
 
 const router = new Router()
 
-router.use("/users", userRouter)
+
+export const routes = [
+    { path: '/users', router: userRoutes },
+    // { path: '/', router: docRouter },
+    // { path: '/oauth', router: oauthRouter },
+    // { path: '/transactions', router: transactionRouter }
+];
+
+
