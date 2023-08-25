@@ -1,18 +1,17 @@
 import { NextFunction, Request, Response } from "express"
-import { UserService } from "../services/user.service";
-import { User } from "../entitys/user.entity";
+import { PostService } from "../services/post.service";
+import { Post } from "../entitys/post.entity";
 import { riseConsts } from "../config/constants.config";
-import { generateToken } from "../utils/jwt.util";
-import { IUser, IUserExisting } from "../interfaces/user.interface";
+import { IPost } from "../interfaces/post.interface";
 
 export class UserController {
-    private userService = new UserService()
+    private userService = new PostService()
 
     all = async (req: Request, res: Response, next: NextFunction) => {
         // private userService = new UserService()
     
         try {
-            const data = await this.userService.getAllUsers()
+            const data = await this.userService.getAllPost()
             return res.status(201).json({ success: true, data: data })
         } catch (error) {
             console.log(error)
@@ -24,10 +23,10 @@ export class UserController {
         const info = req.body;
 
         try {
-            const user: IUser = Object.assign(new User(), info)
+            const user: IPost = Object.assign(new Post(), {...info, author: req.user })
 
-            console.log("1.", user)
-            const data: IUserExisting = await this.userService.createUser(user)
+            // console.log("1.", user)
+            const data = await this.userService.createPost(user)
 
             return res.status(201).json({ success: true, data: data })
 

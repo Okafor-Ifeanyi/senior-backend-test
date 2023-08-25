@@ -1,18 +1,19 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
-import { User } from "./entity/User"
-import { constants } from "./config/constants.config"
+import { User } from "./entitys/user.entity"
+import { riseConsts } from "./config/constants.config"
+import { Post } from "./entitys/post.entity"
 
 export const AppDataSource = new DataSource({
     type: "postgres",
     host: "localhost",
     port: 5432,
-    username: constants.DATABASE_NAME,
-    password: constants.DATABASE_PASSWORD, 
-    database: constants.DATABASE,
+    username: riseConsts.DATABASE_NAME,
+    password: riseConsts.DATABASE_PASSWORD, 
+    database: riseConsts.DATABASE,
     synchronize: true,
     logging: false,
-    entities: [User],
+    entities: [User, Post],
     migrations: [],
     subscribers: [],
 })
