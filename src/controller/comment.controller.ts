@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { CommentService } from "../services/comment.service";
 import { Comment } from "../entitys/comment.entity";
-import { riseConsts } from "../config/constants.config";
+import { RISE } from "../config/constants.config";
 import { IComment, ICommentExisting } from "../interfaces/comment.interface";
 import { UserService } from "../services/user.service";
 import { PostService } from "../services/post.service";
@@ -13,7 +13,7 @@ export class CommentController {
         try {
             const data = await this.commentService.getAllComments(["author", "post"])
             // console.log(data[0].author)
-            return res.status(201).json({ success: true, data: data })
+            return res.status(201).json({ success: true, message: RISE.MESSAGES.COMMENT.FETCHEDALL, data: data })
         } catch (error) {
             return res.status(500).json({ error: error.message });
         }
@@ -25,16 +25,13 @@ export class CommentController {
             const userService = new UserService()
             const author = await userService.findOneUser(req.user?.id)
             const postService = new PostService()
-            console.log(req.params)
             const post = await postService.findOnePost(parseInt(req.params.postId))
         
             const user: IComment = Object.assign(new Comment(), {...info, author: author, post: post })
 
             const data = await this.commentService.createComment(user)
 
-            console.log("Saved Comment:", data); // Debugging
-
-            return res.status(201).json({ success: true, data: data })
+            return res.status(201).json({ success: true, message: RISE.MESSAGES.COMMENT.CREATED, data: data })
 
         } catch (error) {
             return res.status(500).json({ error: error.message });
@@ -44,18 +41,18 @@ export class CommentController {
     one = async (request: Request, response: Response, next: NextFunction) => {
         const id = parseInt(request.params.id)
         try {
-            const user = await this.commentService.findOneComment(id, ['author', 'post'])
+            const comment = await this.commentService.findOneComment(id, ['author', 'post'])
                 // console.log(user.author)
-            if (!user) {
+            if (!comment) {
                 return response.status(401).json({ 
                     success: false, 
-                    message: riseConsts.MESSAGES.USER.INVALID_ID_ERROR
+                    message: RISE.MESSAGES.COMMENT.INVALID_POST_ERROR
                 })
             }
             return response.status(201).json({ 
                 success: true,
-                message: riseConsts.MESSAGES.USER.FETCHED,
-                data: user
+                message: RISE.MESSAGES.COMMENT.FETCHED,
+                data: comment
             })
         } catch (error) {
             return response.status(500).json({ error: error.message });
@@ -70,14 +67,14 @@ export class CommentController {
             if (!user) {
                 return response.status(401).json({ 
                     success: false, 
-                    message: riseConsts.MESSAGES.USER.INVALID_ID_ERROR
+                    message: RISE.MESSAGES.COMMENT.INVALID_POST_ERROR
                 })
             }
 
             await this.commentService.removeComment(user)
             return response.status(201).json({
                 success: true,
-                message: riseConsts.MESSAGES.USER.DELETED
+                message: RISE.MESSAGES.COMMENT.DELETED
             })
         } catch (error) {
             return response.status(500).json({ error: error.message });

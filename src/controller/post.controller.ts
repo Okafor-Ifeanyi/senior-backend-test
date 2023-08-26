@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { PostService } from "../services/post.service";
 import { Post } from "../entitys/post.entity";
-import { riseConsts } from "../config/constants.config";
+import { RISE } from "../config/constants.config";
 import { IPost, IPostExisting } from "../interfaces/post.interface";
 import { UserService } from "../services/user.service";
 
@@ -11,8 +11,7 @@ export class PostController {
     all = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const data = await this.postService.getAllPost(["author"])
-            console.log(data[0].author)
-            return res.status(201).json({ success: true, data: data })
+            return res.status(201).json({ success: true, message: RISE.MESSAGES.POST.FETCHEDALL, data: data })
         } catch (error) {
             return res.status(500).json({ error: error.message });
         }
@@ -22,13 +21,14 @@ export class PostController {
         try {
             const data = await this.postService.getAllPost(["author"])
             const mine: object[] = []
-
             for (let i = 0; i < data.length; i++) {
-                if (data[i].author.id = req.user?.id)
-                    mine.push(data)
+                if (data[i].author.id = req.user?.id){
+                    mine.push(data[i])
+                }
             }
 
-            return res.status(201).json({ success: true, data: mine })
+            return res.status(201).json({ 
+                success: true, message: RISE.MESSAGES.POST.FETCHEDALL, data: mine })
         } catch (error) {
             return res.status(500).json({ error: error.message });
         }
@@ -52,9 +52,7 @@ export class PostController {
 
             const data = await this.postService.createPost(user)
 
-            console.log("Saved Post:", data); // Debugging
-
-            return res.status(201).json({ success: true, data: data })
+            return res.status(201).json({ success: true, message: RISE.MESSAGES.POST.CREATED, data: data })
 
         } catch (error) {
             return res.status(500).json({ error: error.message });
@@ -69,12 +67,12 @@ export class PostController {
             if (!user) {
                 return response.status(401).json({ 
                     success: false, 
-                    message: riseConsts.MESSAGES.USER.INVALID_ID_ERROR
+                    message: RISE.MESSAGES.USER.INVALID_ID_ERROR
                 })
             }
             return response.status(201).json({ 
                 success: true,
-                message: riseConsts.MESSAGES.USER.FETCHED,
+                message: RISE.MESSAGES.POST.FETCHED,
                 data: user
             })
         } catch (error) {
@@ -86,19 +84,19 @@ export class PostController {
     remove = async (request: Request, response: Response, next: NextFunction) => {
         const id = parseInt(request.params.id)
         try {
-            const user = await this.postService.findOnePost(id)
+            const post = await this.postService.findOnePost(id)
 
-            if (!user) {
+            if (!post) {
                 return response.status(401).json({ 
                     success: false, 
-                    message: riseConsts.MESSAGES.USER.INVALID_ID_ERROR
+                    message: RISE.MESSAGES.POST.INVALID_POST_ERROR
                 })
             }
 
-            await this.postService.removePost(user)
+            await this.postService.removePost(post)
             return response.status(201).json({
                 success: true,
-                message: riseConsts.MESSAGES.USER.DELETED
+                message: RISE.MESSAGES.POST.DELETED
             })
         } catch (error) {
             return response.status(500).json({ error: error.message });

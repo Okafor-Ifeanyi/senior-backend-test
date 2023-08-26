@@ -24,11 +24,16 @@ export class User {
     @CreateDateColumn()
     createdAt: Date;
 
+    // @Column()
+    // latestComment: Comment| null;;
+
     @OneToMany(() => Post, (post) => post.author)
     posts: Post[]
 
     @OneToMany(() => Comment, (comment) => comment.author)
     comments: Comment[]
+
+
 
     // Hash the password before saving
     @BeforeInsert()
