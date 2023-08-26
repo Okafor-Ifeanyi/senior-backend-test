@@ -8,6 +8,10 @@ export const riseConsts = {
     JWT_SECRET: process.env.JWT_SECRET,
     MAXAGE: 60 * 60,
 
+    TYPES: {
+        EXPRESS: {},
+    },
+
     MESSAGES: {
         DATABASE: {
             CONNECTED: "DB is connected",
