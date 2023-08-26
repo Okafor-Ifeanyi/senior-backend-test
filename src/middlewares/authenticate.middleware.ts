@@ -4,31 +4,46 @@ import { UserService } from '../services/user.service';
 import { verifyToken } from '../utils/jwt.util';
 import { riseConsts } from '../config/constants.config';
 
-export const isAuth = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  const token = req.headers['authorization']
+export const isAuth = async (req: Request, res: Response, next: NextFunction ) => {
+  try {
+    // initialize the token from header
+    const token = req.headers['authorization']
     ? req.headers['authorization'].split('Bearer ')[1]
     : null;
 
-  if (!token) {
-    next(new Error(riseConsts.MESSAGES.TOKEN.NOTFOUND));
-  } else {
-    const { decoded, expired } = verifyToken(token);
+    // If token is missing throw error
+    if (!token) {
+      return res.status(401).json({
+        success: false, message: riseConsts.MESSAGES.TOKEN.NOTFOUND})
+    } else {
+      // Verify the token found to determin token current value
+      const { decoded, expired } = verifyToken(token);
 
-    if (expired) {
-      next(new Error(riseConsts.MESSAGES.TOKEN.UNAUTHORIZED));
-    }
-    
-    const user = await User.find(decoded?._id);
+      // If token is expired throw error
+      if (expired) {
+        return res.status(401).json({
+          success: false, message: riseConsts.MESSAGES.TOKEN.UNAUTHORIZED
+        })
+      }
 
-    if (!user) {
-      next(new Error(riseConsts.MESSAGES.TOKEN.NOTFOUND));
+      // Call userService and check if user exists on db
+      const userService = new UserService()
+      const user = await userService.findOneUser(decoded?.id)
+
+      // If user is not found throw error
+      if(!user){
+        return res.status(401).json({
+          success: false, message: riseConsts.MESSAGES.USER.INVALID_ID_ERROR
+        })
+      }
+
+      // instantiate req.user to user details, Pre defined under ../config/@types/express
+      req.user = user;
+
+      // If everything goes according to statement pass on
+      next();
     }
-    req.user = { id : user?.id};
-    req.name = {name: user?.name}
-    next();
+  } catch (error) {
+    next(error)
   }
 };

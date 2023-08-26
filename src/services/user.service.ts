@@ -21,17 +21,20 @@ export class UserService {
         });
     }
 
-    async login (input: Pick<IUser, 'name' | 'password'>) {
+    mor = async () => {
+        console.log("Hello World")
+    }
+
+    login = async (input: Pick<IUser, 'name' | 'password'>) => {
         const { name, password } = input;
-        console.log(name)
         
         const user = await this.userRepository.findOne({where: { name }});
         if (!user) throw new Error(riseConsts.MESSAGES.USER.INVALID_ID_ERROR);
       
-        if (!user.validatePassword(password)) {
-          throw new Error(riseConsts.MESSAGES.USER.INVALID_ID_ERROR);
+        const check = await user.validatePassword(password)
+        if (!check) {
+          throw new Error(riseConsts.MESSAGES.USER.INVALID_PASSWORD_ERROR);
         }
-
         return user;
       };
 

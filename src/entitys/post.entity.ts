@@ -11,6 +11,9 @@ export class Post {
     title: string
 
     @Column({nullable: true})
+    description: string 
+
+    @Column()
     content: string 
     
     @ManyToOne(() => User, (author) => author.posts)
