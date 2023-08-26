@@ -3,7 +3,6 @@ import { riseConsts } from "../config/constants.config";
 import { AppDataSource } from "../data-source";
 import { Post } from "../entitys/post.entity";
 import { IPost, IPostExisting } from "../interfaces/post.interface";
-import { IUser, IUserExisting } from "../interfaces/user.interface"
 
 
 export class PostService {

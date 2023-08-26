@@ -6,7 +6,11 @@ import { generateToken } from "../utils/jwt.util";
 import { IUser, IUserExisting } from "../interfaces/user.interface";
 
 export class UserController {
-    private userService = new UserService()
+    private userService: UserService
+
+    constructor () {
+        this.userService = new UserService()
+    }
 
     all = async (req: Request, res: Response, next: NextFunction) => {
         // private userService = new UserService()
@@ -35,16 +39,16 @@ export class UserController {
             return res.status(500).json({ error: error.message });
         }
     }
-    async login(req: Request, res: Response, next: NextFunction) {
+
+    login = async (req: Request, res: Response, next: NextFunction) => {
         try{
-            console.log(req.body)
             // Check if this user exists
             const { id, name} = await this.userService.login(req.body)
-            console.log("1.", id, name)
             // Check if the password matched
+
             const token = generateToken({ id, name }, { expiresIn: riseConsts.MAXAGE });
 
-            return res.json({ success: true, token: token });
+            return res.json({ success: true, token: token, userID: id });
         } catch (error) {
             return res.status(500).json({ error: error.message });
         }

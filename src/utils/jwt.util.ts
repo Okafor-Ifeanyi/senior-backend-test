@@ -1,4 +1,5 @@
-import jwt, { SignOptions } from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
+import { SignOptions } from 'jsonwebtoken';
 import { riseConsts } from '../config/constants.config';
 
 interface IPayload {
