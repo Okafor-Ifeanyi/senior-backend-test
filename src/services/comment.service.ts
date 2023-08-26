@@ -18,14 +18,16 @@ export class CommentService {
     }
 
     async findOneComment(id: number, relations?: string[]) {
-        const comment = await this.userRepository.createQueryBuilder('Comment')
+        const comment = this.userRepository.createQueryBuilder('comment')
         .where('comment.id = :id', { id });
         
         if (relations) {
             comment.leftJoinAndSelect('comment.author', 'author');
-            comment.leftJoinAndSelect('comment.Comment', 'Comment');
+            comment.leftJoinAndSelect('comment.post', 'post');
         }
-        return comment.getOne();
+        
+        const answer = await comment.getOne();
+        return answer;
     }
 
     async removeComment(data: any) {

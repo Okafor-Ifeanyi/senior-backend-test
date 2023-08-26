@@ -8,9 +8,9 @@ const router = Router()
 const comment = new CommentController()
 
 // Posts
-router.post("/create", validate(commentSchema), comment.save)
-router.get("/", isAuth, comment.all)
-router.get("/:id", isAuth, comment.one)
-router.delete("/:id", isAuth, comment.remove)
+router.post("/users/:userId/posts/:postId/comments/create", validate(commentSchema), comment.save)
+router.get("/users/:userId/posts/:postId/comments/", isAuth, comment.all)
+router.get("/users/:userId/posts/:postId/comments/:id", isAuth, comment.one)
+router.delete("/users/:userId/posts/:postId/comments/:id", isAuth, comment.remove)
 
 export default router

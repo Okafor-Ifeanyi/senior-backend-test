@@ -8,7 +8,7 @@ export class Comment {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({ unique: true})
+    @Column({})
     message: string
     
     @ManyToOne(() => User, (author) => author.posts)
