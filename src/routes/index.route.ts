@@ -8,6 +8,6 @@ const router = Router()
 
 router.use("/users", userRouter)
 router.use("/users/:userId/posts", isAuth, postRouter)
-router.use("/users/:userId/posts/:postId/comments", isAuth, commentRouter)
+router.use("", isAuth, commentRouter)
 
 export default router;

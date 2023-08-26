@@ -11,8 +11,8 @@ export class CommentController {
 
     all = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const data = await this.commentService.getAllComments(["author"])
-            console.log(data[0].author)
+            const data = await this.commentService.getAllComments(["author", "post"])
+            // console.log(data[0].author)
             return res.status(201).json({ success: true, data: data })
         } catch (error) {
             return res.status(500).json({ error: error.message });
@@ -20,12 +20,12 @@ export class CommentController {
     }
 
     save = async (req: Request, res: Response, next: NextFunction) => {
-        const info = req.body;
+        const info: IComment = req.body;
         try {
             const userService = new UserService()
             const author = await userService.findOneUser(req.user?.id)
             const postService = new PostService()
-            console.log(parseInt(req.params.id))
+            console.log(req.params)
             const post = await postService.findOnePost(parseInt(req.params.postId))
         
             const user: IComment = Object.assign(new Comment(), {...info, author: author, post: post })
@@ -44,7 +44,7 @@ export class CommentController {
     one = async (request: Request, response: Response, next: NextFunction) => {
         const id = parseInt(request.params.id)
         try {
-            const user = await this.commentService.findOneComment(id, ['author'])
+            const user = await this.commentService.findOneComment(id, ['author', 'post'])
                 // console.log(user.author)
             if (!user) {
                 return response.status(401).json({ 

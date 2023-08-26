@@ -7,7 +7,8 @@
 -   CLI eg _postman_
 -   Setup .env using .env_example
 
-
+## Postman Documentation
+- [Docs](https://documenter.getpostman.com/view/19026826/2s9Y5YRN6k)
 
 ## Stay in Touch
 - Author - [Okafor Ifeanyi](https://github.com/Okafor-Ifeanyi)
