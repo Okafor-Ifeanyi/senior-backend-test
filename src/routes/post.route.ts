@@ -9,9 +9,9 @@ const post = new PostController()
 
 // Posts
 router.post("/create", validate(postSchema), post.save)
-router.get("/", isAuth, post.all)
-router.get("/:id", isAuth, post.one)
-router.get("/mine", isAuth, post.fetchMyPosts)
-router.delete("/:id", isAuth, post.remove)
+router.get("/", post.all)
+router.get("/mine", post.fetchMyPosts)
+router.get("/:id", post.one)
+router.delete("/:id", post.remove)
 
 export default router

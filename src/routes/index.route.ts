@@ -6,7 +6,7 @@ import commentRouter from "./comment.route"
 
 const router = Router()
 
-router.use("/users", userRouter)
+router.use("/users", userRouter) // find performance chllenge here
 router.use("/users/:userId/posts", isAuth, postRouter)
 router.use("", isAuth, commentRouter)
 

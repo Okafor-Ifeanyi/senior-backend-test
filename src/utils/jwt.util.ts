@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import { SignOptions } from 'jsonwebtoken';
-import { riseConsts } from '../config/constants.config';
+import { RISE } from '../config/constants.config';
 
 interface IPayload {
   id: number;
@@ -11,7 +11,7 @@ interface IDecoded {
   expired: boolean;
 }
 
-const JWT_SECRET = riseConsts.JWT_SECRET;
+const JWT_SECRET = RISE.JWT_SECRET;
 
 export const generateToken = (payload: IPayload, options: SignOptions) => {
   return jwt.sign(payload, JWT_SECRET, { ...options });
