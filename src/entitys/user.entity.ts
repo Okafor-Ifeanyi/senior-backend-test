@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, CreateDateColumn, OneToMany } from "typeorm"
 import * as bcrypt from "bcrypt"
 import { Post } from "./post.entity"
+import { Comment } from "./comment.entity"
 
 @Entity()
 export class User {
@@ -25,6 +26,9 @@ export class User {
 
     @OneToMany(() => Post, (post) => post.author)
     posts: Post[]
+
+    @OneToMany(() => Comment, (comment) => comment.author)
+    comments: Comment[]
 
     // Hash the password before saving
     @BeforeInsert()
