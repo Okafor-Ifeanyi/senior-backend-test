@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express"
 import { UserService } from "../services/user.service";
 import { User } from "../entitys/user.entity";
-import { riseConsts } from "../config/constants.config";
+import { RISE } from "../config/constants.config";
 import { generateToken } from "../utils/jwt.util";
 import { IUser, IUserExisting } from "../interfaces/user.interface";
 
@@ -45,9 +45,9 @@ export class UserController {
             const { id, name} = await this.userService.login(req.body)
             // Check if the password matched
 
-            const token = generateToken({ id, name }, { expiresIn: riseConsts.MAXAGE });
+            const token = generateToken({ id, name }, { expiresIn: RISE.MAXAGE });
 
-            return res.json({ success: true, token: token, userID: id });
+            return res.json({ success: true, Token_Type: "Bearer", token: token, userID: id });
         } catch (error) {
             return res.status(500).json({ error: error.message });
         }
@@ -61,12 +61,12 @@ export class UserController {
             if (!user) {
                 return response.status(401).json({ 
                     success: false, 
-                    message: riseConsts.MESSAGES.USER.INVALID_ID_ERROR
+                    message: RISE.MESSAGES.USER.INVALID_ID_ERROR
                 })
             }
             return response.status(201).json({ 
                 success: true, 
-                message: riseConsts.MESSAGES.USER.FETCHED,
+                message: RISE.MESSAGES.USER.FETCHED,
                 data: user
             })
         } catch (error) {
@@ -82,18 +82,38 @@ export class UserController {
             if (!user) {
                 return response.status(401).json({ 
                     success: false, 
-                    message: riseConsts.MESSAGES.USER.INVALID_ID_ERROR
+                    message: RISE.MESSAGES.USER.INVALID_ID_ERROR
                 })
             }
 
             await this.userService.removeUser(user)
             return response.status(201).json({
                 success: true,
-                message: riseConsts.MESSAGES.USER.DELETED
+                message: RISE.MESSAGES.USER.DELETED
             })
         } catch (error) {
             return response.status(500).json({ error: error.message });
         }
     }
+    perfomance = async (request: Request, response: Response, next: NextFunction) => {
+        try {
+            console.log("1. I'm Here")
+            const winner: any = await this.userService.perfomance()
 
+            if (!winner) {
+                return response.status(401).json({ 
+                    success: false, 
+                    message: RISE.MESSAGES.USER.INVALID_ID_ERROR
+                })
+            }
+
+            return response.status(201).json({
+                success: true,
+                message: RISE.MESSAGES.USER.FETCHEDALL,
+                "Top Users": winner
+            })
+        } catch (error) {
+            return response.status(500).json({ error: error.message });
+        }
+    }
 }
