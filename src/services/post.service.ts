@@ -1,5 +1,3 @@
-import { DeepPartial } from "typeorm";
-import { riseConsts } from "../config/constants.config";
 import { AppDataSource } from "../data-source";
 import { Post } from "../entitys/post.entity";
 import { IPost, IPostExisting } from "../interfaces/post.interface";
@@ -8,8 +6,10 @@ import { IPost, IPostExisting } from "../interfaces/post.interface";
 export class PostService {
     private userRepository = AppDataSource.getRepository(Post);
 
-    getAllPost = async () => {
-        return await this.userRepository.find();
+    getAllPost = async (relations?: string[]) => {
+        return await this.userRepository.find(
+            {relations: relations}, 
+        );
     }
 
 
@@ -17,10 +17,14 @@ export class PostService {
         return await this.userRepository.save(input)
     }
 
-    async findOnePost(id: number) {
-        return await this.userRepository.findOne({
-            where: { id }
-        });
+    async findOnePost(id: number, relations?: string[]) {
+        const post = await this.userRepository.createQueryBuilder('post')
+        .where('post.id = :id', { id });
+        
+        if (relations) {
+            post.leftJoinAndSelect('post.author', 'author');
+        }
+        return post.getOne();
     }
 
     async removePost(data: any) {

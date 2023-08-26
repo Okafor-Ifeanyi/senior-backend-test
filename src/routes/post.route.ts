@@ -11,6 +11,7 @@ const post = new PostController()
 router.post("/create", validate(postSchema), post.save)
 router.get("/", isAuth, post.all)
 router.get("/:id", isAuth, post.one)
+router.get("/mine", isAuth, post.fetchMyPosts)
 router.delete("/:id", isAuth, post.remove)
 
 export default router
