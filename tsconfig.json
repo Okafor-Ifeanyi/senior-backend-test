@@ -15,7 +15,7 @@
          "./src/config/@types",
          "./node_modules/@types",
       ],
-      "rootDir": "./src/"
+      "rootDir": "."
    },
    
 }
