@@ -3,7 +3,22 @@ services:
   postgres:
     image: postgres
     environment:
+      POSTGRES_DATABASE: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: risevest
     ports:
       - "5432:5432"
+  
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: my-app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres:risevest@postgres:5432/postgres
+    command: npm run start
+    # command: ["./wait-for-postgres.sh", "postgres", "8001", "npm", "start"]

@@ -29,7 +29,8 @@
    },
    "scripts": {
       "build": "tsc -b",
-      "start": "ts-node src/index.ts",
+      "start": "node build/src/index.js",
+      "start:dev": "ts-node src/index.ts",
       "dev": "nodemon -w *.ts src/index.ts",
       "typeorm": "typeorm-ts-node-commonjs",
       "test": "jest"

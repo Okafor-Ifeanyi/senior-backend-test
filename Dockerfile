@@ -1,12 +1,12 @@
-FROM node
+FROM node:20.2.0-alpine3.18
 
 # Create app directory
-WORKDIR /usr/app
+WORKDIR /app
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
 RUN npm install
 # If you are building your code for production
@@ -17,8 +17,9 @@ COPY . .
 
 # for typescript
 RUN npm run build
-# COPY .env ./build/
-WORKDIR ./build
+# COPY ./docker-compose.yml ./build
+# WORKDIR ./build
 
-EXPOSE 3000
-CMD node src/index.js
+# RUN docker compose up -d
+
+# CMD node src/index.js
