@@ -12,7 +12,6 @@
       "dotenv": "^16.3.1",
       "nodemon": "^3.0.1",
       "ts-jest": "^29.1.1",
-      "ts-node": "10.7.0",
       "typescript": "4.5.2"
    },
    "dependencies": {
@@ -25,9 +24,11 @@
       "pg": "^8.4.0",
       "reflect-metadata": "^0.1.13",
       "supertest": "^6.3.3",
+      "ts-node": "^10.9.1",
       "typeorm": "^0.3.17"
    },
    "scripts": {
+      "build": "tsc -b",
       "start": "ts-node src/index.ts",
       "dev": "nodemon -w *.ts src/index.ts",
       "typeorm": "typeorm-ts-node-commonjs",
