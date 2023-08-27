@@ -17,8 +17,8 @@ COPY . .
 
 # for typescript
 RUN npm run build
-COPY .env ./build/
+# COPY .env ./build/
 WORKDIR ./build
 
-EXPOSE 4000
+EXPOSE 3000
 CMD node src/index.js
