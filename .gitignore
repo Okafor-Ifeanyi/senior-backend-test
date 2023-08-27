@@ -6,18 +6,10 @@
 node_modules/
 
 # Ignore compiled TypeScript files
-*.js
 *.js.map
-
-# Ignore compiled TypeScript definition files
-*.d.ts
-
-# Ignore TypeScript project configuration
-tsconfig.json
 
 # Ignore Visual Studio Code settings
 .vscode/
-
 
 # Ignore build and compiled output
 /build
@@ -26,4 +18,3 @@ tsconfig.json
 
 # Ignore dependency lock files
 yarn.lock
-package-lock.json

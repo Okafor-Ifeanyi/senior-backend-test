@@ -31,7 +31,7 @@ Duration 3 days
 >   [Diagrams on dbdiagrams.io](https://dbdiagram.io/d/64e64cd902bd1c4a5e4a24e0)
 
 ## Live Server `@render`
->   [Render Live](https://vitals-8myt.onrender.com)
+>   [Render Live](https://risevest-t0qe.onrender.com)
 
 ## Postman Documentation
 >   [Postman Docs](https://documenter.getpostman.com/view/19026826/2s9Y5YRN6k)

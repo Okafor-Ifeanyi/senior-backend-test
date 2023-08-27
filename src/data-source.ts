@@ -7,11 +7,11 @@ import { Comment } from "./entitys/comment.entity"
 
 export const AppDataSource = new DataSource({
     type: "postgres",
-    host: RISE.HOST,
-    port: parseInt(RISE.PORT),
-    username: RISE.DATABASE_NAME,
-    password: RISE.DATABASE_PASSWORD, 
-    database: RISE.DATABASE,
+    host:  "localhost",// RISE.HOST,
+    port: 5432,
+    username: "postgres",
+    password: "risevest", 
+    database: "postgres",
     synchronize: true,
     logging: false,
     entities: [User, Post, Comment],
