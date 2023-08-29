@@ -62,16 +62,16 @@ export class CommentController {
     remove = async (request: Request, response: Response, next: NextFunction) => {
         const id = parseInt(request.params.id)
         try {
-            const user = await this.commentService.findOneComment(id)
+            const comment = await this.commentService.findOneComment(id)
 
-            if (!user) {
+            if (!comment) {
                 return response.status(401).json({ 
                     success: false, 
                     message: RISE.MESSAGES.COMMENT.INVALID_POST_ERROR
                 })
             }
 
-            await this.commentService.removeComment(user)
+            await this.commentService.removeComment(comment)
             return response.status(201).json({
                 success: true,
                 message: RISE.MESSAGES.COMMENT.DELETED

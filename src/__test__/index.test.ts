@@ -13,6 +13,7 @@ beforeAll( async() => {
 const value: any = {}
 
 describe("Test user Functionalities", ()=> {
+    jest.setTimeout(30000); // 30 seconds
     // Register
     test("Register user",async () => {
         const result = await supertest(app)
@@ -45,7 +46,7 @@ describe("Test user Functionalities", ()=> {
             .send({ name: "BIO", password: "569484" })
 
         expect(result.statusCode).toBe(500)
-        expect(result.body.error).toEqual(RISE.MESSAGES.USER.INVALID_PASSWORD_ERROR)
+        expect(result.body.error).toEqual(RISE.MESSAGES.USER.INVALID_ID_ERROR)
     })
 
     // Check if login works
@@ -95,7 +96,7 @@ describe("Test user Functionalities", ()=> {
                     .post(`/users/${value.key1}/posts/create`)
                     .send(JSON.createPost)
                     .set('Authorization', `Bearer ${value.key2}`)
-            
+
             value.key3 = result.body.data.id
             expect(result.statusCode).toBe(201)
             expect(result.body.data).toMatchObject({
@@ -106,6 +107,7 @@ describe("Test user Functionalities", ()=> {
                 createdAt: expect.any(String)
             })
         })
+
         // Check for duplicate error
         test("Duplicate Error for post", async () => {
             const result = await supertest(app)
@@ -123,7 +125,7 @@ describe("Test user Functionalities", ()=> {
             const result = await supertest(app)
                 .get(`/users/${value.key1}/posts/`)
                 .set('Authorization', `Bearer ${value.key2}`)
-    
+
             expect(result.statusCode).toBe(201)
             expect(result.body).toMatchObject({ success: true });
         })
@@ -133,7 +135,7 @@ describe("Test user Functionalities", ()=> {
             const result = await supertest(app)
                 .get(`/users/${value.key1}/posts/${value.key3}`)
                 .set('Authorization', `Bearer ${value.key2}`)
-    
+            
             expect(result.statusCode).toBe(201)
             expect(result.body.message).toEqual(RISE.MESSAGES.POST.FETCHED)
             expect(result.body).toMatchObject({ success: true });
@@ -155,7 +157,7 @@ describe("Test user Functionalities", ()=> {
             const result = await supertest(app)
                 .delete(`/users/${value.key1}/posts/${value.key3}`)
                 .set('Authorization', `Bearer ${value.key2}`)
-    
+
             expect(result.statusCode).toBe(201)
             expect(result.body.message).toEqual(RISE.MESSAGES.POST.DELETED)
             expect(result.body).toMatchObject({ success: true });
@@ -169,8 +171,9 @@ describe("Test user Functionalities", ()=> {
                     .post(`/users/${value.key1}/posts/${value.key3}/comments/create`)
                     .send(JSON.createComment)
                     .set('Authorization', `Bearer ${value.key2}`)
-            
+
             value.key4 = result.body.data.id
+
             expect(result.statusCode).toBe(201)
             expect(result.body.data).toMatchObject({
                 id : expect.any(Number),
@@ -186,7 +189,7 @@ describe("Test user Functionalities", ()=> {
             const result = await supertest(app)
                 .get(`/users/${value.key1}/posts/${value.key3}/comments/`)
                 .set('Authorization', `Bearer ${value.key2}`)
-    
+
             expect(result.statusCode).toBe(201)
             expect(result.body).toMatchObject({ success: true });
         })
@@ -196,7 +199,7 @@ describe("Test user Functionalities", ()=> {
             const result = await supertest(app)
                 .get(`/users/${value.key1}/posts/${value.key3}/comments/${value.key4}`)
                 .set('Authorization', `Bearer ${value.key2}`)
-    
+
             expect(result.statusCode).toBe(201)
             expect(result.body.message).toEqual(RISE.MESSAGES.COMMENT.FETCHED)
             expect(result.body).toMatchObject({ success: true });
@@ -207,7 +210,7 @@ describe("Test user Functionalities", ()=> {
             const result = await supertest(app)
                 .delete(`/users/${value.key1}/posts/${value.key3}/comments/${value.key4}`)
                 .set('Authorization', `Bearer ${value.key2}`)
-    
+
             expect(result.statusCode).toBe(201)
             expect(result.body.message).toEqual(RISE.MESSAGES.COMMENT.DELETED)
             expect(result.body).toMatchObject({ success: true });

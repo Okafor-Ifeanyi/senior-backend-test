@@ -27,13 +27,11 @@ export class User {
     // @Column()
     // latestComment: Comment| null;;
 
-    @OneToMany(() => Post, (post) => post.author)
+    @OneToMany(() => Post, (post) => post.author, { onDelete: "SET NULL" })
     posts: Post[]
 
-    @OneToMany(() => Comment, (comment) => comment.author)
+    @OneToMany(() => Comment, (comment) => comment.author, { onDelete: "SET NULL" })
     comments: Comment[]
-
-
 
     // Hash the password before saving
     @BeforeInsert()

@@ -11,10 +11,10 @@ export class Comment {
     @Column({})
     message: string
     
-    @ManyToOne(() => User, (author) => author.posts)
+    @ManyToOne(() => User, (author) => author.comments, { onDelete: "SET NULL" })
     author: User;
 
-    @ManyToOne(() => Post, (post) => post.comments)
+    @ManyToOne(() => Post, (post) => post.comments, { onDelete: "SET NULL" })
     post: User;
 
     @CreateDateColumn()
