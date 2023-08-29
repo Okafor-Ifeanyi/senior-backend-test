@@ -17,10 +17,10 @@ export class Post {
     @Column()
     content: string 
     
-    @ManyToOne(() => User, (author) => author.posts)
+    @ManyToOne(() => User, (author) => author.posts, { onDelete: "SET NULL" })
     author: User;
 
-    @OneToMany(() => Comment, (comment) => comment.post)
+    @OneToMany(() => Comment, (comment) => comment.post, { onDelete: "SET NULL" })
     comments: Comment[]
 
     @CreateDateColumn()

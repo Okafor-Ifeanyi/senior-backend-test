@@ -20,5 +20,8 @@ services:
       - postgres
     environment:
       DATABASE_URL: postgres://postgres:risevest@postgres:5432/postgres
-    command: npm run start
+
+    command: 
+        - npm run test
+        - npm run start
     # command: ["./wait-for-postgres.sh", "postgres", "8001", "npm", "start"]
