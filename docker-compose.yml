@@ -3,12 +3,12 @@ services:
   postgres:
     image: postgres
     environment:
-      POSTGRES_DATABASE: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: risevest
+      POSTGRES_DB: postgres  # Specify the database name
+      POSTGRES_USER: postgres  # Specify the username
+      POSTGRES_PASSWORD: risevest  # Specify the password
     ports:
       - "5432:5432"
-  
+    
   app:
     build:
       context: ./
