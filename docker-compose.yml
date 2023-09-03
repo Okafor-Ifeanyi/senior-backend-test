@@ -8,21 +8,20 @@ services:
       POSTGRES_PASSWORD: risevest  # Specify the password
     ports:
       - "5432:5432"
-  
-  # app:
-  #   build:
-  #     context: ./
-  #     dockerfile: Dockerfile
-  #   container_name: my-app
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - postgres
-  #   environment:
-  #     DATABASE_URL: postgres://risevest:Otkzg2UM6iono2xUK6wKgJE3dS3zmq8N@dpg-cjmsmfthe99c73dt3500-a.oregon-postgres.render.com/risevest_ns77
+    
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: my-app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://risevest:Otkzg2UM6iono2xUK6wKgJE3dS3zmq8N@dpg-cjmsmfthe99c73dt3500-a.oregon-postgres.render.com/risevest_ns77
 
 
-  #   command: 
-  #       - npm run test
-  #       - npm run start
-    # command: ["./wait-for-postgres.sh", "postgres", "8001", "npm", "start"]
+    command: 
+        - npm run test
+        - npm run start
