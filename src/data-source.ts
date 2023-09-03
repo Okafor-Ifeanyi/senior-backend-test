@@ -10,7 +10,7 @@ export const AppDataSource = new DataSource({
     host: RISE.HOST,
     port: parseInt(RISE.PORT),
     username: RISE.DATABASE_NAME,
-    password: RISE.DATABASE_PASSWORD, 
+    password: RISE.DATABASE_PASSWORD,
     database: RISE.DATABASE,
     synchronize: true,
     logging: false,
