@@ -4,8 +4,6 @@ FROM node:20.2.0-alpine3.18
 WORKDIR /app
 
 # Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
 COPY package.json package-lock.json ./
 
 RUN npm install
@@ -17,6 +15,7 @@ COPY . .
 
 # for typescript
 RUN npm run build
+RUN npm run test
 # COPY ./docker-compose.yml ./build
 # WORKDIR ./build
 
