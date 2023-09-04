@@ -4,6 +4,9 @@ import { User } from "./entitys/user.entity"
 import { RISE } from "./config/constants.config"
 import { Post } from "./entitys/post.entity"
 import { Comment } from "./entitys/comment.entity"
+import { TlsOptions } from "tls"
+
+const tlsOptions: TlsOptions = JSON.parse(RISE.SSL);
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -17,5 +20,5 @@ export const AppDataSource = new DataSource({
     entities: [User, Post, Comment],
     migrations: [],
     subscribers: [],
-    ssl: true, // Add this line to enable SSL/TLS
+    ssl: tlsOptions, // Add this line to enable SSL/TLS
 })
