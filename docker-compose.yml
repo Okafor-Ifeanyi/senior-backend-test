@@ -24,3 +24,4 @@ services:
     command: 
         - npm run test
         - npm run start
+    # command: ["./wait-for-postgres.sh", "postgres", "8001", "npm", "start"]
