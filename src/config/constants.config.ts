@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import { number } from 'joi';
+import { boolean, number } from 'joi';
 dotenv.config();
 
 export const RISE = {
@@ -11,6 +11,7 @@ export const RISE = {
     PORT: process.env.PORT,
     EXPRESS_PORT: process.env.EXPRESS_PORT,
     HOST: process.env.HOST,
+    SSL: process.env.SSL,
 
 
     MESSAGES: {
